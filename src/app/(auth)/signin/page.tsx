@@ -31,6 +31,14 @@ const SignIn = () => {
           label="Email"
           placeholder="Enter your email"
           error={errors.email}
+          type="email"
+          validation={{
+            required: "Email is required",
+            pattern: {
+              value: /^\S+@\S+\.\S+$/,
+              message: "Enter a valid email",
+            },
+          }}
         />
         <InputFields
           register={register}
@@ -38,6 +46,12 @@ const SignIn = () => {
           label="Password"
           placeholder="Enter a strong password"
           error={errors.password}
+          type="password"
+          validation={{
+            required: "Password is required",
+            minLength: 8,
+            message: "At least 8 characters",
+          }}
         />
         <Button
           disabled={isSubmitting}

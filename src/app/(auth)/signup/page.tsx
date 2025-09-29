@@ -53,7 +53,11 @@ const SignUp = () => {
           placeholder="Suman Kumar"
           register={register}
           error={errors.fullName}
-          validation={{ required: "Full Name is required", minLength: 2 }}
+          validation={{
+            required: "Full Name is required",
+            minLength: 2,
+            message: "Must be at least 2 characters",
+          }}
         />
         <InputFields
           name="email"
@@ -61,9 +65,10 @@ const SignUp = () => {
           placeholder="contact@gmail.com"
           register={register}
           error={errors.email}
+          type="email"
           validation={{
             required: "Email is required",
-            pattern: /^\w+@\w+\.\w+$/i,
+            pattern: /^\S+@\S+\.\S+$/i,
             message: "Invalid email address",
           }}
         />
@@ -73,6 +78,7 @@ const SignUp = () => {
           placeholder="Enter a strong password"
           register={register}
           error={errors.password}
+          type="password"
           validation={{ required: "Password is required", minLength: 8 }}
         />
         {/* Additional fields like country, investment goals, etc. can be added here */}
