@@ -19,12 +19,18 @@ export const signUpWithEmail = async ({
       body: { email, password, name: fullName },
     });
 
-    if (response) {
+    if (!response) {
+      return {
+        success: false,
+        message: "Sign up failed: No response from auth provider",
+      };
+    }
+
+    try {
       await inngest.send({
         name: "app/user.created",
         data: {
           email,
-          password,
           name: fullName,
           country,
           investmentGoals,
@@ -32,12 +38,14 @@ export const signUpWithEmail = async ({
           preferredIndustry,
         },
       });
-      return {
-        success: true,
-        message: "User signed up successfully",
-        data: response,
-      };
+    } catch (error) {
+      console.error("Failed to send welcome email event:", error);
     }
+    return {
+      success: true,
+      message: "User signed up successfully",
+      data: response,
+    };
   } catch (e) {
     console.log("Error signing up user:", e);
     return { success: false, message: "Sign up failed" };
