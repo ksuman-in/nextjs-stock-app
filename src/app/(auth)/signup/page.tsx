@@ -5,15 +5,19 @@ import CountrySelectFields from "@/components/forms/CountrySelectFields";
 import InputFields from "@/components/forms/InputFields";
 import SelectFields from "@/components/forms/SelectFields";
 import { Button } from "@/components/ui/button";
+import { signUpWithEmail } from "@/lib/actions/auth.actions";
 import {
   INVESTMENT_GOALS,
   PREFERRED_INDUSTRIES,
   RISK_TOLERANCE_OPTIONS,
 } from "@/utils/contatns";
+import { useRouter } from "next/navigation";
 import React from "react";
 import { useForm } from "react-hook-form";
+import { toast } from "sonner";
 
 const SignUp = () => {
+  const router = useRouter();
   const {
     register,
     handleSubmit,
@@ -34,7 +38,13 @@ const SignUp = () => {
 
   const onSubmit = async (data: SignUpFormData) => {
     try {
-      console.log("Form Data:", data);
+      const response = await signUpWithEmail(data);
+      if (response?.success) {
+        // Handle successful sign-up (e.g., redirect to dashboard)
+        toast.success("Sign-up successful! Welcome aboard.");
+        router.push("/");
+        console.log("Sign-up successful:", response);
+      }
     } catch (error) {
       console.error("Error during sign up:", error);
     }
