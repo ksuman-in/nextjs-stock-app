@@ -19,11 +19,12 @@ export const sendWelcomeEmail = async ({
     intro
   ).replace("{{name}}", name);
   const mailOptions = {
-    from: `"Stock Analysis" <suman845415@gail.com>`,
+    from: `"Stock Analysis" <${process.env.NODEMAILER_EMAIL}>`,
     to: email,
     subject: "Welcome to Our Platform!",
     html: htmlTemplate,
   };
 
-  await transporter.sendMail(mailOptions);
+  const info = await transporter.sendMail(mailOptions);
+  return { messageId: info.messageId };
 };
